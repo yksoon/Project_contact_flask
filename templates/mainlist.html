@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h1>전화번호부</h1>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>이름</th>
+            <th>연락처</th>
+        </tr>
+        {% for i in select_list %}
+        <tr>
+            <td><a href={{ '/detail/%d' % i[0] }}>{{ i[1] }}</a></td>
+            <td>{{ i[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="button" value="연락처 추가" onclick="location.href='/new'">
+</body>
+</html>
