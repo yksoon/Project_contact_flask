@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>연락처 추가</title>
+    <title>연락처 수정</title>
     <style>
         *{
             box-sizing: border-box; 
@@ -33,6 +33,7 @@
             background-color: #F6F7FF;
             text-align: center;
             border-style: dashed;
+            font-weight: 700;
         }
         body {
         font-family: Arial; background-color: #3498DB; padding: 50px;
@@ -77,26 +78,49 @@
 </head>
 <body>
     <div class="contact">
+        {% for n in select_detail %}
         <div class="title">
-            <h1>연락처 추가</h1>
+            <h1>{{ n[1] }}</h1>
         </div>
-        <form action="/insert" method="POST">
+        <script type="text/javascript">
+            function delete_alert(){
+                var delete_btn = confirm("정말 삭제하시겠습니까?");
+                if(delete_btn == true){
+                    alert("삭제되었습니다.");
+                    location.href='/delete/{{ n[0] }}';
+                }
+                else{
+                    return;
+                }
+            }
+        </script>
+        <form action="/update/{{ n[0] }}" method="POST">
             <table border="1">
-                <tr>
-                    <th>이름</th>
-                    <td><input type="text" name="name" class="input_text" /></th>
-                </tr>
-                <tr>
-                    <th>연락처</th>
-                    <td><input type="text" name="phone" class="input_text" /></th>
-                </tr>
+                
+                    <tr>
+                        <th>이름</th>
+                        <td>
+                            <input type="text", value="{{ n[1] }}", name="name" class="input_text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td>
+                            <input type="text", value="{{ n[2] }}" name="phone" class="input_text" />
+                        </td>
+                    </tr>
+                
             </table>
             <br />
             <div class="btn_line">
-                <input type="reset" value="취소" onclick="location.href='/'" class="btn" />
-                <input type="submit" value="확인" class="btn" />
+                <input type="button" value="뒤로" onclick="location.href='/detail/{{ n[0] }}'" class="btn"/>
+                <input type="button" value="삭제" name="delete" onclick="delete_alert();" class="btn"/>
+                <input type="submit" value="완료" class="btn"/>
             </div>
+
+            
         </form>
+        {% endfor %}
     </div>
 
 </body>

@@ -18,7 +18,7 @@
         }
         table{
             width: 100;
-            min-height: 500px;
+            height: 150px;
             overflow-y: auto;
             font-family: 'Nanum Gothic', sans-serif;
             border-color: #8896D7;
@@ -84,11 +84,10 @@
             color: #FFF;
             transition: border .5s;
         }
-        
-        .new{
+        .btn_line{
             text-align: right;
         }
-        .new_btn{
+        .btn{
             text-align: center;
             vertical-align: top;
             border: 2px solid transparent; 
@@ -106,33 +105,36 @@
         <div class="title">
             <h1>전화번호부</h1>
         </div>
-        <form action="/search" method="POST">
-            <div class="top">
-                <input type="text" autofocus placeholder="이름" name="name" class="search_text" required>
-                <input type="submit" value="검색" class="search_btn">
-            </div>
-                <br />
-            <div class="new">
-                <input type="button" value="연락처 추가" onclick="location.href='/new'" class="new_btn">
-            </div>
-            <div>
-                <br />
+        <div class="btn_line">
+            <input type="button" value="뒤로" onclick="location.href='/'" class="btn" />
+        </div>
+        <br />
+            {% if search[0] == NULL %}
+                <script type="text/javascript">
+                    var insert;
+                    insert = confirm("검색결과가 없습니다. 새로 연락처를 등록하시겠습니까?");
+                    if(insert){
+                        location.href='/new';
+                    }
+                    else{
+                        location.href='/';
+                    }
+                </script>
+            {% else %}
                 <table border="1">
                     <tr>
                         <th class="jd-th-1">이름</th>
                         <th class="jd-th-2">연락처</th>
                     </tr>
-                    {% for i in select_list %}
-                    {% set number = i[2] %}
+                {% for i in search %}
+                {% set number = i[2] %}
                     <tr>
                         <td><a href={{ '/detail/%d' % i[0] }}>{{ i[1] }}</a></td>
                         <td>{{ number[:3] + '-' + number[3:-4] + '-' + number[-4:] }}</td>
                     </tr>
-                    {% endfor %}
+                {% endfor %}
                 </table>
-            </div>
-        </form>
-    </div>
-
+            {% endif %}
+    </div>       
 </body>
 </html>

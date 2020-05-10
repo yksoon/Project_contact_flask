@@ -16,7 +16,7 @@ cursor = con.cursor()
 
 # 리스트 출력
 def select_list():
-    cursor.execute("SELECT * FROM contact")
+    cursor.execute("SELECT * FROM contact ORDER BY name")
     sel_list = cursor.fetchall()
     return sel_list
 
@@ -26,6 +26,29 @@ def insert_contact(name, phone):
     cursor.execute(query)
     con.commit()
 
-# 연락처 삭제
+# 연락처 상세보기
+def select_detail(no):
+    query = "SELECT * FROM contact WHERE no='{}'".format(no)
+    cursor.execute(query)
+    sel_detail = cursor.fetchall()
+    return sel_detail
 
+# 연락처 수정
+def update_contact(no, name, phone):
+    query = "UPDATE contact SET name='{}', number='{}' WHERE no={}".format(name, phone, no)
+    cursor.execute(query)
+    con.commit()
+    
+# 연락처 삭제
+def delete_contact(no):
+    query = "DELETE FROM contact WHERE no=%s" % no
+    cursor.execute(query)
+    con.commit()
+
+# 연락처 검색
+def search_contact(name):
+    query = "SELECT * FROM contact WHERE name='{}'".format(name)
+    cursor.execute(query)
+    sel_search = cursor.fetchall()
+    return sel_search
 

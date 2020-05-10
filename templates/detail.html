@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>연락처 추가</title>
+    <title>연락처 상세보기</title>
     <style>
         *{
             box-sizing: border-box; 
@@ -33,6 +33,7 @@
             background-color: #F6F7FF;
             text-align: center;
             border-style: dashed;
+            font-weight: 700;
         }
         body {
         font-family: Arial; background-color: #3498DB; padding: 50px;
@@ -62,42 +63,37 @@
             color: #FFF;
             transition: border .5s;
         }
-        .input_text{
-            text-align: center;
-            background-color: #F6F7FF; 
-            border: 2px solid transparent; 
-            border-radius: 3px;
-            font-size: 16px;
-            font-weight: 200;
-            padding: 10px 0;
-            width: auto;
-            transition: border .5s;
-        }
     </style>
 </head>
 <body>
     <div class="contact">
-        <div class="title">
-            <h1>연락처 추가</h1>
-        </div>
-        <form action="/insert" method="POST">
-            <table border="1">
-                <tr>
-                    <th>이름</th>
-                    <td><input type="text" name="name" class="input_text" /></th>
-                </tr>
-                <tr>
-                    <th>연락처</th>
-                    <td><input type="text" name="phone" class="input_text" /></th>
-                </tr>
-            </table>
-            <br />
-            <div class="btn_line">
-                <input type="reset" value="취소" onclick="location.href='/'" class="btn" />
-                <input type="submit" value="확인" class="btn" />
-            </div>
-        </form>
+    {% for n in select_detail %}
+    {% set number = n[2] %}
+    <div class="title">
+        <h1>{{ n[1] }}</h1>
     </div>
-
+    <table border="1">      
+        
+            <tr>
+                <th>이름</th>
+                <td>
+                    {{ n[1] }}
+                </td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td>
+                    {{ number[:3] + '-' + number[3:-4] + '-' + number[-4:] }}
+                </td>
+            </tr>
+        
+    </table>
+    <br />
+    <div class="btn_line">
+        <input type="button" value="뒤로" onclick="location.href='/'" class="btn"/>
+        <input type="button" value="수정" onclick="location.href='/updatepage/{{ n[0] }}'" class="btn"/>
+    </div>
+    {% endfor %}
+    </div>
 </body>
 </html>
